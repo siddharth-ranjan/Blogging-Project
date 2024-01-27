@@ -3,18 +3,12 @@ package com.project.blog.controllers;
 import com.project.blog.entities.Blog;
 import com.project.blog.entities.User;
 import com.project.blog.models.BlogModel;
-import com.project.blog.models.UserModel;
-import com.project.blog.repositories.BlogRepository;
-import com.project.blog.repositories.UserRepository;
 import com.project.blog.services.BlogService;
 import com.project.blog.services.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 public class BlogController {
@@ -51,6 +45,6 @@ public class BlogController {
 
     @GetMapping("/user-{id}/blogs")
     public List<Blog> getBlog(@PathVariable("id") Long userId){
-        return blogService.getBlogsById(userId);
+        return blogService.getBlogsByUserId(userId);
     }
 }

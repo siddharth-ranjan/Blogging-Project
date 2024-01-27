@@ -5,8 +5,6 @@ import com.project.blog.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public interface BlogService {
@@ -15,5 +13,7 @@ public interface BlogService {
 
     public List<Blog> getBlogs();
 
-    public List<Blog> getBlogsById(Long id);
+    public List<Blog> getBlogsByUserId(Long userId);
+
+    public Blog getBlogById(Long blogId);
 }

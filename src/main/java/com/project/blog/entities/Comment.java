@@ -21,17 +21,17 @@ public class Comment {
 
     @OneToMany()
     @JoinColumn(name = "tagged_user_id")
-//    @JsonBackReference
+    @JsonBackReference
     private Set<User> taggedUsers;
 
     @ManyToOne()
     @JoinColumn(name = "blog_id", nullable = false)
-//    @JsonBackReference
+    @JsonBackReference
     private Blog blog;
 
     @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false)
-//    @JsonBackReference
+    @JsonBackReference
     private User user;
 
     public Comment() {

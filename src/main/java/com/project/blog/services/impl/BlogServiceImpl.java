@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+//import java.util.Set;
 
 @Service
 public class BlogServiceImpl implements BlogService{
@@ -35,7 +35,16 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public List<Blog> getBlogsById(Long id) {
-        return blogRepository.findAllByUser(userRepository.findById(id));
+    public List<Blog> getBlogsByUserId(Long userId) {
+        return blogRepository.findAllByUser(userRepository.findById(userId));
     }
+
+    @Override
+    public Blog getBlogById(Long blogId){
+        Optional<Blog> blog = blogRepository.findById(blogId);
+        return blog.orElse(null);
+//        return blog.get();
+    }
+
+
 }

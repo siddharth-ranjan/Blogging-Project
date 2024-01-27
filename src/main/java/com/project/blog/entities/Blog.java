@@ -30,7 +30,6 @@ public class Blog {
     private User user;
 
     @OneToMany(mappedBy = "blog")
-    @JsonBackReference
     private List<Comment> comments;
 
     public Blog(String title, String content, User user) {
