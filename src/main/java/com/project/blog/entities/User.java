@@ -48,13 +48,28 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Blog> blogs;
+    private Set<Blog> blogs = new HashSet<>();
 
-    @OneToMany
-    private Set<User> followers;
+//    @OneToMany
+//    @JsonBackReference
+//    private Set<User> followers = new HashSet<>();
+//
+//    @OneToMany
+//    @JsonBackReference
+//    private Set<User> followings = new HashSet<>();
 
-    @OneToMany
-    private Set<User> followings;
+    @ManyToMany
+    @JoinTable(
+            name = "followers_following",
+            joinColumns = @JoinColumn(name = "following_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    @JsonIgnore // To prevent infinite loop in JSON serialization
+    private Set<User> followers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "followers") // "followers" is the name of the followers field in the User class
+    @JsonIgnore // To prevent infinite loop in JSON serialization
+    private Set<User> followings = new HashSet<>();
 
     public User(String firstName, String lastName, String email, String contact, String address) {
         this.firstName = firstName;
