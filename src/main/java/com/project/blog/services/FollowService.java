@@ -13,4 +13,6 @@ public interface FollowService {
     public ResponseEntity<Set<User>> getFollowers(Long userId);
 
     public ResponseEntity<Set<User>> getFollowings(Long userId);
+
+    ResponseEntity<?> unfollow(Long userId, Long id);
 }

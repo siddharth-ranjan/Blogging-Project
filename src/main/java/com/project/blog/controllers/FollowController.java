@@ -24,10 +24,6 @@ public class FollowController {
         this.followService = followService;
     }
 
-//    public FollowController(UserService userService) {
-//        this.userService = userService;
-//    }
-
     @PostMapping("/user-{followerId}/follow-{id}")
     public ResponseEntity<?> follow(
             @PathVariable("followerId") Long followerId,
@@ -46,5 +42,10 @@ public class FollowController {
     @GetMapping("user/{id}/followings")
     public ResponseEntity<Set<User>> getFollowings(@PathVariable("id") Long userId){
         return followService.getFollowings(userId);
+    }
+
+    @PostMapping("/user-{uId}/unfollow-{id}")
+    public ResponseEntity<?> unfollow(@PathVariable("uId") Long userId, @PathVariable("id") Long id){
+        return followService.unfollow(userId, id);
     }
 }
