@@ -59,41 +59,38 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public ResponseEntity<?> unfollow(Long userId, Long id) {
-        Optional<User> user = userRepository.findById(userId);
-        System.out.println("user = " + user.get().getFirstName());
-        Optional<User> follows = userRepository.findById(id);
-        if(user.isEmpty() || follows.isEmpty()){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("User not found");
         }
 
-//        Set<User> followings = user.get().getFollowings();
+        User currentUser = userOptional.get();
 
-        Set<User> newFollowings = new HashSet<>(user.get().getFollowings());
+        Optional<User> followsOptional = userRepository.findById(id);
+        if (followsOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("User to unfollow not found");
+        }
 
+        User userToUnfollow = followsOptional.get();
 
-        if(!newFollowings.contains(follows.get()))
+        Set<User> newFollowings = new HashSet<>(currentUser.getFollowings());
+
+        if (!newFollowings.contains(userToUnfollow)) {
             return ResponseEntity.badRequest().body("User does not follow!");
+        }
 
-//        followings.remove(follows.get());
-//
-//        Set<User> follower = follows.get().getFollowers();
-//
-//        follower.remove(user.get());
-//
-//        follows.get().setFollowings(follower);
-////        userRepository.save(follows.get());
-//        user.get().setFollowers(followings);
-//        userRepository.save(user.get());
-//        for(User u: user.get().getFollowings()){
-//            System.out.println("u = " + u.getFirstName());
-//        }
+        newFollowings.remove(userToUnfollow);
+        currentUser.setFollowings(newFollowings);
 
-        newFollowings.remove(follows.get());
-        user.get().setFollowings(newFollowings);
+        Set<User> userToUnfollowFollowers = new HashSet<>(userToUnfollow.getFollowers());
+        userToUnfollowFollowers.remove(currentUser);
+        userToUnfollow.setFollowers(userToUnfollowFollowers);
 
-        userRepository.save(user.get());
+        userRepository.save(currentUser);
+        userRepository.save(userToUnfollow);
 
-
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("Unfollowed successfully");
     }
+
+
 }
