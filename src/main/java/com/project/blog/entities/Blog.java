@@ -3,8 +3,10 @@ package com.project.blog.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Blog {
@@ -18,9 +20,13 @@ public class Blog {
 
     private String content;
 
-    private Long likes = 0L;
+    @OneToMany()
+    @JoinColumn(name = "user_id")
+    private Set<User> likes = new HashSet<>();
 
-    private Long dislikes = 0L;
+    @OneToMany()
+    @JoinColumn(name = "user_id")
+    private Set<User> dislikes = new HashSet<>();
 
     private Long shared = 0L;
 
@@ -39,6 +45,18 @@ public class Blog {
     }
 
     public Blog() {
+    }
+
+    public void setBlogId(Long blogId) {
+        this.blogId = blogId;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
     }
 
     public Long getBlogId() {
@@ -61,19 +79,11 @@ public class Blog {
         this.content = content;
     }
 
-    public Long getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Long likes) {
-        this.likes = likes;
-    }
-
-    public Long getDislikes() {
+    public Set<User> getDislikes() {
         return dislikes;
     }
 
-    public void setDislikes(Long dislikes) {
+    public void setDislikes(Set<User> dislikes) {
         this.dislikes = dislikes;
     }
 

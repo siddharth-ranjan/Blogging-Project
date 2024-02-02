@@ -10,9 +10,9 @@ public interface FollowService {
 
     public ResponseEntity<String> follow(Long followerId, Long followingId);
 
-    public ResponseEntity<Set<User>> getFollowers(Long userId);
+    public ResponseEntity<?> getFollowers(Long userId);
 
-    public ResponseEntity<Set<User>> getFollowings(Long userId);
+    public ResponseEntity<?> getFollowings(Long userId);
 
     ResponseEntity<?> unfollow(Long userId, Long id);
 }

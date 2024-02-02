@@ -43,7 +43,6 @@ public class BlogServiceImpl implements BlogService{
     public Blog getBlogById(Long blogId){
         Optional<Blog> blog = blogRepository.findById(blogId);
         return blog.orElse(null);
-//        return blog.get();
     }
 
 

@@ -13,5 +13,5 @@ public interface UserService {
 
     public List<User> getUsers();
 
-    public Optional<User> getUser(Long id);
+    public User getUser(Long id);
 }

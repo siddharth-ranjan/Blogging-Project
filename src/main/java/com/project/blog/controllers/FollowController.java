@@ -34,13 +34,13 @@ public class FollowController {
     }
 
     @GetMapping("user/{id}/followers")
-    public ResponseEntity<Set<User>> getFollowers(@PathVariable("id") Long userId){
+    public ResponseEntity<?> getFollowers(@PathVariable("id") Long userId){
         return followService.getFollowers(userId);
     }
 
 
     @GetMapping("user/{id}/followings")
-    public ResponseEntity<Set<User>> getFollowings(@PathVariable("id") Long userId){
+    public ResponseEntity<?> getFollowings(@PathVariable("id") Long userId){
         return followService.getFollowings(userId);
     }
 

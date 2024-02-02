@@ -3,6 +3,7 @@ package com.project.blog.controllers;
 import com.project.blog.entities.User;
 import com.project.blog.models.UserModel;
 import com.project.blog.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +32,10 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable("id") Long userId){
-        return userService.getUser(userId);
+    public ResponseEntity<?> getUser(@PathVariable("id") Long userId){
+        User user = userService.getUser(userId);
+        if(user == null) return ResponseEntity.badRequest().body("User not found");
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/users")

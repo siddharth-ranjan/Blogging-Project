@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+//@Service
 public interface BlogService {
 
     public Blog createBlog(Blog blog, User user);

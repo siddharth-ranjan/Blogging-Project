@@ -28,13 +28,13 @@ public class BlogController {
         blog.setContent(blogModel.getContent());
         blog.setTitle(blogModel.getTitle());
 
-        Optional<User> user = userService.getUser(userId);
+        User user = userService.getUser(userId);
 
-        if(user.isEmpty()){
+        if(user == null){
             return null;
         }
 
-        return blogService.createBlog(blog, user.get());
+        return blogService.createBlog(blog, user);
     }
 
     @GetMapping("/blogs")

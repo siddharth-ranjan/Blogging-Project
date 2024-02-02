@@ -1,5 +1,6 @@
 package com.project.blog.services.impl;
 
+import com.project.blog.entities.Blog;
 import com.project.blog.entities.User;
 import com.project.blog.repositories.UserRepository;
 import com.project.blog.services.UserService;
@@ -28,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUser(Long id) {
-        return userRepository.findById(id);
+    public User getUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
-
 }

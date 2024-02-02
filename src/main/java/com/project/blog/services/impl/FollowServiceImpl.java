@@ -24,37 +24,42 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public ResponseEntity<String> follow(Long followerId, Long followingId) {
-        Optional<User> follower = userService.getUser(followerId);
-        Optional<User> following = userService.getUser(followingId);
 
-        if(follower.isEmpty()) return ResponseEntity.badRequest().body("Invalid Follower");
-        if(following.isEmpty()) return ResponseEntity.badRequest().body("Invalid Following");
+        User follower = userService.getUser(followerId);
+        User following = userService.getUser(followingId);
+
+        if(follower == null) return ResponseEntity.badRequest().body("Invalid Follower");
+        if(following == null) return ResponseEntity.badRequest().body("Invalid Following");
+
+        Set<User> followers = follower.getFollowers();
+        followers.add(following);
 
 
-        Set<User> followers = follower.get().getFollowers();
-        followers.add(following.get());
-
-
-        userRepository.save(follower.get());
-        userRepository.save(following.get());
+        userRepository.save(follower);
+        userRepository.save(following);
 
         return ResponseEntity.ok("Success");
     }
 
     @Override
-    public ResponseEntity<Set<User>> getFollowers(Long userId) {
+    public ResponseEntity<?> getFollowers(Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(user.isEmpty()) return ResponseEntity.notFound().build();
+        if(user.isEmpty()) return ResponseEntity.badRequest().body("User not valid");
 
-        return ResponseEntity.ok(user.get().getFollowers());
+        Set<User> followers = user.get().getFollowers();
+        if(followers.isEmpty()) return ResponseEntity.badRequest().body("User is yet to be followed");
+
+        return ResponseEntity.ok(followers);
     }
 
     @Override
-    public ResponseEntity<Set<User>> getFollowings(Long userId) {
+    public ResponseEntity<?> getFollowings(Long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if(user.isEmpty()) return ResponseEntity.notFound().build();
+        if(user.isEmpty()) return ResponseEntity.badRequest().body("User not present");
 
-        return ResponseEntity.ok(user.get().getFollowings());
+        Set<User> followings = user.get().getFollowings();
+        if(followings.isEmpty()) return ResponseEntity.badRequest().body("No followers found");
+        return ResponseEntity.ok(followings);
     }
 
     @Override
